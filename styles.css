@@ -1,0 +1,86 @@
+/* Custom Styles */
+.mobile-menu {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8649FB;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6a3bc9;
+}
+
+/* Product card hover effect */
+.product-card {
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Modal animation */
+#productModal {
+    transition: opacity 0.3s ease;
+}
+
+/* Carousel navigation buttons */
+.carousel-prev,
+.carousel-next {
+    transition: all 0.3s ease;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Form input focus styles */
+input:focus,
+textarea:focus {
+    box-shadow: 0 0 0 2px rgba(134, 73, 251, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+}
+
+/* Animation for the mobile menu */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-menu.show {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+} 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Luxury Furniture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-bold text-[#18171a]">LUXURY FURNITURE</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4">
+                        <a href="index.html" class="text-[#18171a] hover:text-[#8649FB] px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" class="text-[#18171a] hover:text-[#8649FB] px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="products.html" class="text-[#18171a] hover:text-[#8649FB] px-3 py-2 rounded-md text-sm font-medium">Products</a>
+                        <a href="contact.html" class="text-[#8649FB] px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="mobile-menu-button p-2 rounded-md text-[#18171a] hover:text-[#8649FB]">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-[#18171a] hover:text-[#8649FB] block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" class="text-[#18171a] hover:text-[#8649FB] block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="products.html" class="text-[#18171a] hover:text-[#8649FB] block px-3 py-2 rounded-md text-base font-medium">Products</a>
+                <a href="contact.html" class="text-[#8649FB] block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Hero Section -->
+    <section class="pb-16">
+        <div class="relative h-[100vh]">
+            <img src="assets/contact-us.jpg" alt="Contact Us" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div class="text-center text-white">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">Get in Touch</h1>
+                    <p class="text-xl md:text-2xl">We'd love to hear from you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Information Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-[#8649FB] text-white p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-[#18171a]">Visit Us</h3>
+                    <p class="text-gray-600">123 Furniture Street<br>Design District<br>New York, NY 10001</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-[#8649FB] text-white p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-[#18171a]">Call Us</h3>
+                    <p class="text-gray-600">+1 (555) 123-4567<br>Mon - Fri: 9am - 6pm<br>Sat: 10am - 4pm</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-[#8649FB] text-white p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-[#18171a]">Email Us</h3>
+                    <p class="text-gray-600">info@luxuryfurniture.com<br>support@luxuryfurniture.com<br>sales@luxuryfurniture.com</p>
+                </div>
+            </div>
+
+            <!-- Contact Form Section -->
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 text-[#18171a]">Send Us a Message</h2>
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 mb-2">Your Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 mb-2">Your Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-gray-700 mb-2">Subject</label>
+                            <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 mb-2">Your Message</label>
+                            <textarea id="message" rows="6" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]"></textarea>
+                        </div>
+                        <button type="submit" class="bg-[#8649FB] text-white px-8 py-3 rounded-lg hover:bg-[#6a3bc9] transition duration-300">Send Message</button>
+                    </form>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 text-[#18171a]">Find Us</h2>
+                    <div class="h-96 bg-gray-200 rounded-lg overflow-hidden">
+                        <!-- Replace with your actual map embed code -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.2155710122!2d-73.9878448!3d40.7579747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1645555555555!5m2!1sen!2sus" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#18171a] text-white py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">LUXURY FURNITURE</h3>
+                    <p class="text-gray-400">Crafting timeless pieces for modern living spaces.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="products.html" class="text-gray-400 hover:text-white">Products</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Luxury Furniture. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
