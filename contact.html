@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body class="bg-white">
     <!-- Navigation -->
@@ -83,25 +84,26 @@
             </div>
 
             <!-- Contact Form Section -->
+
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
                     <h2 class="text-3xl font-bold mb-6 text-[#18171a]">Send Us a Message</h2>
-                    <form class="space-y-6">
+                    <form id="contactForm" class="space-y-6">
                         <div>
                             <label for="name" class="block text-gray-700 mb-2">Your Name</label>
-                            <input type="text" id="name" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
                         </div>
                         <div>
                             <label for="email" class="block text-gray-700 mb-2">Your Email</label>
-                            <input type="email" id="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
                         </div>
                         <div>
                             <label for="subject" class="block text-gray-700 mb-2">Subject</label>
-                            <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
+                            <input type="text" id="subject" name="subject" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]">
                         </div>
                         <div>
                             <label for="message" class="block text-gray-700 mb-2">Your Message</label>
-                            <textarea id="message" rows="6" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]"></textarea>
+                            <textarea id="message" name="message" rows="6" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#8649FB]"></textarea>
                         </div>
                         <button type="submit" class="bg-[#8649FB] text-white px-8 py-3 rounded-lg hover:bg-[#6a3bc9] transition duration-300">Send Message</button>
                     </form>
@@ -176,5 +178,48 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- EmailJS Configuration -->
+    <script type="text/javascript">
+        (function() {
+            // Initialize EmailJS
+            emailjs.init("qUqmr3uSGQmXb_OlE"); // Replace with your EmailJS public key
+            
+            // Form submission handler
+            document.getElementById('contactForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value
+                };
+                
+                // Show loading state
+                const submitButton = event.target.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+                
+                // Send email using EmailJS
+                emailjs.send('service_3ako9i7', 'template_edk4kna', formData)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        alert('Message sent successfully!');
+                        document.getElementById('contactForm').reset();
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                        alert('Failed to send message. Please try again.');
+                    })
+                    .finally(function() {
+                        // Reset button state
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                    });
+            });
+        })();
+    </script>
 </body>
 </html> 
