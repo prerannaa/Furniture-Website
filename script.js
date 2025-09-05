@@ -218,7 +218,7 @@ function updateDots() {
 setInterval(() => {
     index = (index + 1) % totalSlides;
     updateCarousel();
-}, 2000);
+}, 4000);
 
 // Initialize first dot as active
 updateDots();
