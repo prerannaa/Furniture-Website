@@ -237,7 +237,7 @@ function createGallery({
     function padNumber(num) {
       return String(num).padStart(4, "0"); // makes 1 → 0001
     }
-  
+  console.log("image path", imagePath)
     function renderGallery(page) {
       const gallery = document.getElementById(containerId);
       gallery.innerHTML = "";
@@ -251,7 +251,7 @@ function createGallery({
           "bg-white rounded-lg shadow overflow-hidden group";
         
         const img = document.createElement("img");
-        img.src = `${imagePath}${prefix}${padNumber(i)}.jpg`; 
+        img.src = `${imagePath}${prefix}${padNumber(i)}.JPG`; 
         img.alt = `${prefix}${padNumber(i)}`;
         img.className =
           "w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-110";
