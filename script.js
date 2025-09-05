@@ -14,6 +14,172 @@ document.addEventListener('click', (e) => {
   }
 });
 
+
+
+// Mobile menu toggle
+class MobileMenu {
+    constructor() {
+        this.mobileMenuButton = document.querySelector('.mobile-menu-button');
+        this.mobileMenu = document.querySelector('.mobile-menu');
+        this.productsToggle = document.getElementById('products-toggle');
+        this.productsSubmenu = document.getElementById('products-submenu');
+        this.productsArrow = document.getElementById('products-arrow');
+        
+        this.init();
+    }
+    
+    init() {
+        // Initialize all menus to closed state
+        this.resetAllMenus();
+        
+        // Bind events
+        this.bindEvents();
+    }
+    
+    resetAllMenus() {
+        // Reset main mobile menu
+        this.mobileMenu.classList.add('hidden');
+        this.mobileMenu.classList.remove('show');
+        
+        // Reset products submenu
+        this.productsSubmenu.classList.add('hidden');
+        this.productsSubmenu.classList.remove('active');
+        this.productsArrow.classList.remove('rotate-180');
+        
+        // Reset all category submenus
+        const categorySubmenus = document.querySelectorAll('.category-submenu');
+        const categoryArrows = document.querySelectorAll('.category-item .arrow');
+        
+        categorySubmenus.forEach(menu => {
+            menu.classList.remove('active');
+        });
+        
+        categoryArrows.forEach(arrow => {
+            if (arrow.id !== 'products-arrow') {
+                arrow.classList.remove('rotate-180');
+            }
+        });
+    }
+    
+    bindEvents() {
+        // Main mobile menu toggle
+        this.mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleMainMenu();
+        });
+        
+        // Products submenu toggle
+        this.productsToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleProductsMenu();
+        });
+        
+        // Category toggles
+        const categoryButtons = document.querySelectorAll('[data-category]');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const category = button.getAttribute('data-category');
+                this.toggleCategory(category);
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.mobileMenu.contains(e.target) && !this.mobileMenuButton.contains(e.target)) {
+                this.closeMainMenu();
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.resetAllMenus();
+            }
+        });
+    }
+    
+    toggleMainMenu() {
+        const isHidden = this.mobileMenu.classList.contains('hidden');
+        
+        if (isHidden) {
+            this.mobileMenu.classList.remove('hidden');
+            this.mobileMenu.classList.add('show');
+        } else {
+            this.closeMainMenu();
+        }
+    }
+    
+    closeMainMenu() {
+        this.mobileMenu.classList.add('hidden');
+        this.mobileMenu.classList.remove('show');
+        
+        // Also close all submenus when main menu closes
+        this.closeProductsMenu();
+        this.closeAllCategories();
+    }
+    
+    toggleProductsMenu() {
+        const isActive = this.productsSubmenu.classList.contains('active');
+        
+        if (isActive) {
+            // Close products menu
+            this.closeProductsMenu();
+        } else {
+            // Open products menu
+            this.productsSubmenu.classList.add('active');
+            this.productsArrow.classList.add('rotate-180');
+        }
+    }
+    
+    closeProductsMenu() {
+        this.productsSubmenu.classList.remove('active');
+        this.productsArrow.classList.remove('rotate-180');
+        
+        // Also close all category submenus
+        this.closeAllCategories();
+    }
+    
+    toggleCategory(categoryName) {
+        const submenu = document.getElementById(categoryName + '-submenu');
+        const arrow = document.getElementById(categoryName + '-arrow');
+        
+        if (!submenu || !arrow) return;
+        
+        const isActive = submenu.classList.contains('active');
+        
+        // Close all other categories first
+        this.closeAllCategories();
+        
+        // Toggle the clicked category
+        if (!isActive) {
+            submenu.classList.add('active');
+            arrow.classList.add('rotate-180');
+        }
+    }
+    
+    closeAllCategories() {
+        const categorySubmenus = document.querySelectorAll('.category-submenu');
+        const categoryArrows = document.querySelectorAll('.category-item .arrow');
+        
+        categorySubmenus.forEach(menu => {
+            menu.classList.remove('active');
+        });
+        
+        categoryArrows.forEach(arrow => {
+            if (arrow.id !== 'products-arrow') {
+                arrow.classList.remove('rotate-180');
+            }
+        });
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    new MobileMenu();
+});
+
+
 // Testimonial Carousel
 const track = document.getElementById("carousel-track");
 const dotsContainer = document.getElementById("carousel-dots");
@@ -57,6 +223,96 @@ setInterval(() => {
 // Initialize first dot as active
 updateDots();
 
+
+function createGallery({ 
+    containerId, 
+    paginationId, 
+    imagePath, 
+    prefix = "IMG_", 
+    totalImages, 
+    perPage = 20 
+  }) {
+    let currentPage = 1;
+  
+    function padNumber(num) {
+      return String(num).padStart(4, "0"); // makes 1 → 0001
+    }
+  
+    function renderGallery(page) {
+      const gallery = document.getElementById(containerId);
+      gallery.innerHTML = "";
+  
+      const start = (page - 1) * perPage + 1;
+      const end = Math.min(page * perPage, totalImages);
+  
+      for (let i = start; i <= end; i++) {
+        const imgDiv = document.createElement("div");
+        imgDiv.className =
+          "bg-white rounded-lg shadow overflow-hidden group";
+        
+        const img = document.createElement("img");
+        img.src = `${imagePath}${prefix}${padNumber(i)}.jpg`; 
+        img.alt = `${prefix}${padNumber(i)}`;
+        img.className =
+          "w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-110";
+        
+        imgDiv.appendChild(img);
+        gallery.appendChild(imgDiv);
+      }
+  
+      renderPagination(page);
+    }
+  
+    function renderPagination(activePage) {
+        const pagination = document.getElementById(paginationId);
+        pagination.innerHTML = "";
+      
+        const totalPages = Math.ceil(totalImages / perPage);
+      
+        // Previous button
+        const prevBtn = document.createElement("button");
+        prevBtn.innerText = "⟵ Prev";
+        prevBtn.className = `px-3 py-1 rounded mr-2 ${
+          activePage === 1
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        }`;
+        prevBtn.disabled = activePage === 1;
+        prevBtn.addEventListener("click", () => renderGallery(activePage - 1));
+        pagination.appendChild(prevBtn);
+      
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.innerText = i;
+          btn.className = `px-3 py-1 rounded mx-1 ${
+            i === activePage
+              ? "bg-[#8649FB] text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`;
+          btn.addEventListener("click", () => renderGallery(i));
+          pagination.appendChild(btn);
+        }
+      
+        // Next button
+        const nextBtn = document.createElement("button");
+        nextBtn.innerText = "Next ⟶";
+        nextBtn.className = `px-3 py-1 rounded ml-2 ${
+          activePage === totalPages
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        }`;
+        nextBtn.disabled = activePage === totalPages;
+        nextBtn.addEventListener("click", () => renderGallery(activePage + 1));
+        pagination.appendChild(nextBtn);
+      }
+      
+  
+    // Initial render
+    renderGallery(currentPage);
+  }
+  
+  
 
 // function initializeTestimonialCarousel() {
 //     const carousel = document.querySelector('.testimonial-carousel');
@@ -383,170 +639,6 @@ if (window.location.pathname.includes('products.html')) {
 } 
 
 
-//navigation menu mobile view 
-
-// Mobile menu toggle
-class MobileMenu {
-    constructor() {
-        this.mobileMenuButton = document.querySelector('.mobile-menu-button');
-        this.mobileMenu = document.querySelector('.mobile-menu');
-        this.productsToggle = document.getElementById('products-toggle');
-        this.productsSubmenu = document.getElementById('products-submenu');
-        this.productsArrow = document.getElementById('products-arrow');
-        
-        this.init();
-    }
-    
-    init() {
-        // Initialize all menus to closed state
-        this.resetAllMenus();
-        
-        // Bind events
-        this.bindEvents();
-    }
-    
-    resetAllMenus() {
-        // Reset main mobile menu
-        this.mobileMenu.classList.add('hidden');
-        this.mobileMenu.classList.remove('show');
-        
-        // Reset products submenu
-        this.productsSubmenu.classList.add('hidden');
-        this.productsSubmenu.classList.remove('active');
-        this.productsArrow.classList.remove('rotate-180');
-        
-        // Reset all category submenus
-        const categorySubmenus = document.querySelectorAll('.category-submenu');
-        const categoryArrows = document.querySelectorAll('.category-item .arrow');
-        
-        categorySubmenus.forEach(menu => {
-            menu.classList.remove('active');
-        });
-        
-        categoryArrows.forEach(arrow => {
-            if (arrow.id !== 'products-arrow') {
-                arrow.classList.remove('rotate-180');
-            }
-        });
-    }
-    
-    bindEvents() {
-        // Main mobile menu toggle
-        this.mobileMenuButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleMainMenu();
-        });
-        
-        // Products submenu toggle
-        this.productsToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleProductsMenu();
-        });
-        
-        // Category toggles
-        const categoryButtons = document.querySelectorAll('[data-category]');
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const category = button.getAttribute('data-category');
-                this.toggleCategory(category);
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!this.mobileMenu.contains(e.target) && !this.mobileMenuButton.contains(e.target)) {
-                this.closeMainMenu();
-            }
-        });
-        
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.resetAllMenus();
-            }
-        });
-    }
-    
-    toggleMainMenu() {
-        const isHidden = this.mobileMenu.classList.contains('hidden');
-        
-        if (isHidden) {
-            this.mobileMenu.classList.remove('hidden');
-            this.mobileMenu.classList.add('show');
-        } else {
-            this.closeMainMenu();
-        }
-    }
-    
-    closeMainMenu() {
-        this.mobileMenu.classList.add('hidden');
-        this.mobileMenu.classList.remove('show');
-        
-        // Also close all submenus when main menu closes
-        this.closeProductsMenu();
-        this.closeAllCategories();
-    }
-    
-    toggleProductsMenu() {
-        const isActive = this.productsSubmenu.classList.contains('active');
-        
-        if (isActive) {
-            // Close products menu
-            this.closeProductsMenu();
-        } else {
-            // Open products menu
-            this.productsSubmenu.classList.add('active');
-            this.productsArrow.classList.add('rotate-180');
-        }
-    }
-    
-    closeProductsMenu() {
-        this.productsSubmenu.classList.remove('active');
-        this.productsArrow.classList.remove('rotate-180');
-        
-        // Also close all category submenus
-        this.closeAllCategories();
-    }
-    
-    toggleCategory(categoryName) {
-        const submenu = document.getElementById(categoryName + '-submenu');
-        const arrow = document.getElementById(categoryName + '-arrow');
-        
-        if (!submenu || !arrow) return;
-        
-        const isActive = submenu.classList.contains('active');
-        
-        // Close all other categories first
-        this.closeAllCategories();
-        
-        // Toggle the clicked category
-        if (!isActive) {
-            submenu.classList.add('active');
-            arrow.classList.add('rotate-180');
-        }
-    }
-    
-    closeAllCategories() {
-        const categorySubmenus = document.querySelectorAll('.category-submenu');
-        const categoryArrows = document.querySelectorAll('.category-item .arrow');
-        
-        categorySubmenus.forEach(menu => {
-            menu.classList.remove('active');
-        });
-        
-        categoryArrows.forEach(arrow => {
-            if (arrow.id !== 'products-arrow') {
-                arrow.classList.remove('rotate-180');
-            }
-        });
-    }
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    new MobileMenu();
-});
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const mobileMenuButton = document.querySelector('.mobile-menu-button');

@@ -296,6 +296,16 @@
 
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-4">
+          <!-- Grid Container -->
+          <div id="banquetGallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
+      
+          <!-- Pagination -->
+          <div class="flex justify-center mt-8 space-x-2" id="banquetPagination"></div>
+        </div>
+      </section>
+
+    <!-- <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <img src="../assets/resturant-chair.jpg" alt="Banquet chair sample" class="w-full h-56 object-cover">
@@ -308,7 +318,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <footer class="bg-[#18171a] text-white py-8">
         <div class="max-w-7xl mx-auto px-4">
@@ -343,6 +353,16 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script>
+        createGallery({
+          containerId: "banquetGallery",
+          paginationId: "banquetPagination",
+          imagePath: "../assets/categories/banquet-chairs/",
+          prefix: "IMG_",   // because files are IMG_0001.jpg, IMG_0002.jpg...
+          totalImages: 7, // adjust to how many images you have
+          perPage: 20
+        });
+      </script>
 </body>
 </html>
 
