@@ -15,6 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.remove('show');
         }
     });
+    // Mobile accordion for Categories
+    const accordionButtons = document.querySelectorAll('.mobile-accordion > button');
+    accordionButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('hidden');
+            }
+        });
+    });
 });
 
 // Testimonial Carousel
@@ -159,6 +170,23 @@ function initializeBestSellers() {
     });
 }
 
+// Handle top-level Products accordion
+document.querySelectorAll(".mobile-accordion > button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const submenu = btn.nextElementSibling;
+      submenu.classList.toggle("hidden");
+    });
+  });
+  
+  // Handle each category accordion
+  document.querySelectorAll(".mobile-submenu > div > button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const subitems = btn.nextElementSibling;
+      subitems.classList.toggle("hidden");
+    });
+  });
+
+  
 // Clients Carousel
 // const clients = [
 //     { image: "assets/clients/client1.png", name: "Client 1" },
@@ -348,3 +376,157 @@ if (window.location.pathname.includes('products.html')) {
             });
     });
 } 
+
+
+//navigation menu mobile view 
+function toggleProducts(event) {
+    event.stopPropagation();
+    const submenu = document.getElementById('products-submenu');
+    const arrow = document.getElementById('products-arrow');
+    
+    // Force state reset - remove all conflicting classes first
+    submenu.classList.remove('active', 'hidden');
+    
+    // Check if it was previously active by looking at arrow rotation
+    const wasActive = arrow.classList.contains('rotate-180');
+    
+    if (wasActive) {
+        // Was open, now close it
+        submenu.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+    } else {
+        // Was closed, now open it
+        submenu.classList.add('active');
+        arrow.classList.add('rotate-180');
+    }
+}
+
+function toggleCategory(categoryName, event) {
+    event.stopPropagation();
+    const submenu = document.getElementById(categoryName + '-submenu');
+    const arrow = document.getElementById(categoryName + '-arrow');
+        
+    const allSubmenus = document.querySelectorAll('.category-submenu');
+    const allArrows = document.querySelectorAll('[id$="-arrow"]:not(#products-arrow)');
+    
+    allSubmenus.forEach(menu => {
+        if (menu.id !== categoryName + '-submenu') {
+            menu.classList.remove('active');
+        }
+    });
+    
+    allArrows.forEach(arr => {
+        if (arr.id !== categoryName + '-arrow') {
+            arr.classList.remove('rotate-180');
+        }
+    });
+    
+    // Toggle the clicked category
+    submenu.classList.toggle('active');
+    arrow.classList.toggle('rotate-180');
+}
+
+function initializeMenuState() {
+    // Ensure all category submenus start in a clean hidden state
+    const allSubmenus = document.querySelectorAll('.category-submenu');
+    allSubmenus.forEach(menu => {
+        menu.classList.remove('active');
+        menu.classList.add('hidden');
+    });
+    
+    // Ensure main products submenu starts hidden
+    const productsSubmenu = document.getElementById('products-submenu');
+    if (productsSubmenu) {
+        productsSubmenu.classList.remove('active');
+        productsSubmenu.classList.add('hidden');
+    }
+}
+
+function closeAllMenus() {
+    const productsSubmenu = document.getElementById('products-submenu');
+    const productsArrow = document.getElementById('products-arrow');
+    
+    if (productsSubmenu && productsArrow) {
+        productsSubmenu.classList.remove('active', 'hidden');
+        productsSubmenu.classList.add('hidden');
+        productsArrow.classList.remove('rotate-180');
+    }
+    
+    // Handle category submenus - using your exact logic
+    const allSubmenus = document.querySelectorAll('.category-submenu');
+    const allArrows = document.querySelectorAll('[id$="-arrow"]:not(#products-arrow)');
+    
+    allSubmenus.forEach(menu => {
+        menu.classList.remove('active');
+    });
+    
+    allArrows.forEach(arr => {
+        arr.classList.remove('rotate-180');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMenuState();
+    
+    document.addEventListener('click', function(event) {
+        // Check if click is inside menu areas
+        const isInsideMenu = event.target.closest('.mobile-accordion') ||
+                            event.target.closest('.mobile-submenu') ||
+                            event.target.closest('.category-submenu') ||
+                            event.target.closest('button[onclick*="toggleProducts"]') ||
+                            event.target.closest('button[onclick*="toggleCategory"]');
+        
+        // Only close if clicking outside all menu areas
+        if (!isInsideMenu) {
+            closeAllMenus();
+        }
+    });
+    
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeAllMenus();
+        }
+    });
+});
+
+//<!-- EmailJS Configuration -->
+(function() {
+    // Initialize EmailJS
+    emailjs.init(""); // Replace with your EmailJS public key
+    
+    // Form submission handler
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+        
+        // Show loading state
+        const submitButton = event.target.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        
+        // Send email using EmailJS
+        emailjs.send('service_3ako9i7', 'template_edk4kna', formData)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('Message sent successfully!');
+                document.getElementById('contactForm').reset();
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Failed to send message. Please try again.');
+            })
+            .finally(function() {
+                // Reset button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            });
+    });
+})();
+
