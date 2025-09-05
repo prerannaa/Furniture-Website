@@ -233,6 +233,8 @@ function createGallery({
     perPage = 20 
   }) {
     let currentPage = 1;
+
+    console.log("image path", imagePath)
   
 
     function padNumber(num) {
