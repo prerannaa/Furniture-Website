@@ -29,80 +29,110 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Testimonial Carousel
-function initializeTestimonialCarousel() {
-    const carousel = document.querySelector('.testimonial-carousel');
-    const items = document.querySelectorAll('.testimonial-items');
-    const dots = document.querySelectorAll('.carousel-dot');
-    
-    if (!carousel || items.length === 0) return;
-    
-    let currentIndex = 0;
-    const itemWidth = 320; // Width of each item including margin
-    const totalItems = items.length;
-    let carouselInterval;
-    
-    // Clone first item and append to end for infinite effect
-    const firstItem = items[0].cloneNode(true);
-    carousel.appendChild(firstItem);
-    
-    function updateDots() {
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-        });
-    }
-    
-    function goToSlide(index) {
-        currentIndex = index;
-        const translateX = -currentIndex * itemWidth;
-        carousel.style.transform = `translateX(${translateX}px)`;
-        updateDots();
-    }
-    
-    function nextSlide() {
-        currentIndex++;
-        const translateX = -currentIndex * itemWidth;
-        carousel.style.transform = `translateX(${translateX}px)`;
-        
-        // Reset to first item when reaching the cloned item
-        if (currentIndex >= totalItems) {
-            setTimeout(() => {
-                carousel.style.transition = 'none';
-                currentIndex = 0;
-                carousel.style.transform = 'translateX(0)';
-                setTimeout(() => {
-                    carousel.style.transition = 'transform 0.5s ease-in-out';
-                }, 10);
-            }, 500);
-        }
-        updateDots();
-    }
-    
-    function startCarousel() {
-        carouselInterval = setInterval(nextSlide, 3000);
-    }
-    
-    function stopCarousel() {
-        clearInterval(carouselInterval);
-    }
-    
-    // Add click event listeners to dots
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            stopCarousel();
-            goToSlide(index);
-            startCarousel();
-        });
-    });
-    
-    // Pause carousel on hover
-    carousel.addEventListener('mouseenter', stopCarousel);
-    
-    // Resume carousel when mouse leaves
-    carousel.addEventListener('mouseleave', startCarousel);
-    
-    // Start the carousel
-    startCarousel();
+const track = document.getElementById("carousel-track");
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("prev");
+
+let index = 0;
+const slides = track.children;
+const slideCount = slides.length;
+
+function updateCarousel() {
+  track.style.transform = `translateX(-${index * 100}%)`;
 }
+
+nextBtn.addEventListener("click", () => {
+  index = (index + 1) % slideCount;
+  updateCarousel();
+});
+
+prevBtn.addEventListener("click", () => {
+  index = (index - 1 + slideCount) % slideCount;
+  updateCarousel();
+});
+
+// Auto-slide every 3s
+setInterval(() => {
+  index = (index + 1) % slideCount;
+  updateCarousel();
+}, 2000);
+
+
+
+// function initializeTestimonialCarousel() {
+//     const carousel = document.querySelector('.testimonial-carousel');
+//     const items = document.querySelectorAll('.testimonial-items');
+//     const dots = document.querySelectorAll('.carousel-dot');
+    
+//     if (!carousel || items.length === 0) return;
+    
+//     let currentIndex = 0;
+//     const itemWidth = 320; // Width of each item including margin
+//     const totalItems = items.length;
+//     let carouselInterval;
+    
+//     // Clone first item and append to end for infinite effect
+//     const firstItem = items[0].cloneNode(true);
+//     carousel.appendChild(firstItem);
+    
+//     function updateDots() {
+//         dots.forEach((dot, index) => {
+//             dot.classList.toggle('active', index === currentIndex);
+//         });
+//     }
+    
+//     function goToSlide(index) {
+//         currentIndex = index;
+//         const translateX = -currentIndex * itemWidth;
+//         carousel.style.transform = `translateX(${translateX}px)`;
+//         updateDots();
+//     }
+    
+//     function nextSlide() {
+//         currentIndex++;
+//         const translateX = -currentIndex * itemWidth;
+//         carousel.style.transform = `translateX(${translateX}px)`;
+        
+//         // Reset to first item when reaching the cloned item
+//         if (currentIndex >= totalItems) {
+//             setTimeout(() => {
+//                 carousel.style.transition = 'none';
+//                 currentIndex = 0;
+//                 carousel.style.transform = 'translateX(0)';
+//                 setTimeout(() => {
+//                     carousel.style.transition = 'transform 0.5s ease-in-out';
+//                 }, 10);
+//             }, 500);
+//         }
+//         updateDots();
+//     }
+    
+//     function startCarousel() {
+//         carouselInterval = setInterval(nextSlide, 3000);
+//     }
+    
+//     function stopCarousel() {
+//         clearInterval(carouselInterval);
+//     }
+    
+//     // Add click event listeners to dots
+//     dots.forEach((dot, index) => {
+//         dot.addEventListener('click', () => {
+//             stopCarousel();
+//             goToSlide(index);
+//             startCarousel();
+//         });
+//     });
+    
+//     // Pause carousel on hover
+//     carousel.addEventListener('mouseenter', stopCarousel);
+    
+//     // Resume carousel when mouse leaves
+//     carousel.addEventListener('mouseleave', startCarousel);
+    
+//     // Start the carousel
+//     startCarousel();
+// }
 
 // Best Sellers Carousel
 const bestSellers = [
@@ -170,6 +200,7 @@ function initializeBestSellers() {
     });
 }
 
+
 // Handle top-level Products accordion
 document.querySelectorAll(".mobile-accordion > button").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -186,32 +217,7 @@ document.querySelectorAll(".mobile-accordion > button").forEach(btn => {
     });
   });
 
-  
-// Clients Carousel
-// const clients = [
-//     { image: "assets/clients/client1.png", name: "Client 1" },
-//     { image: "assets/clients/client2.png", name: "Client 2" },
-//     { image: "assets/clients/client3.png", name: "Client 3" },
-//     { image: "assets/clients/client4.png", name: "Client 4" },
-//     { image: "assets/clients/client5.png", name: "Client 5" }
-// ];
-
-// // Initialize Clients Carousel
-// function initializeClients() {
-//     const clientsContainer = document.querySelector('.clients-carousel .flex');
-    
-//     if (!clientsContainer) return;
-    
-//     clients.forEach(client => {
-//         const clientCard = document.createElement('div');
-//         clientCard.className = 'flex-shrink-0 w-32 h-32 flex items-center justify-center';
-//         clientCard.innerHTML = `
-//             <img src="${client.image}" alt="${client.name}" class="max-w-full max-h-full object-contain">
-//         `;
-//         clientsContainer.appendChild(clientCard);
-//     });
-// }
-
+ 
 // Modal functionality
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('productModal');
@@ -239,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeBestSellers();
     // initializeClients();
-    initializeTestimonialCarousel();
+    // initializeTestimonialCarousel();
 });
 
 // Form submission handling
