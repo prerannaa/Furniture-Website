@@ -1,4 +1,4 @@
-.mobile-menu {
+/* .mobile-menu {
     transition: all 0.3s ease-in-out;
 }
 
@@ -38,6 +38,40 @@
         transform: translateY(0);
         opacity: 1;
     }
+} */
+
+.mobile-submenu.hidden {
+    display: none;
+}
+
+.mobile-submenu.active {
+    display: block;
+}
+
+.category-submenu {
+    display: none;
+}
+
+.category-submenu.active {
+    display: block;
+}
+
+/* Arrow rotation animation */
+.arrow {
+    transition: transform 0.2s ease-in-out;
+}
+
+.arrow.rotate-180 {
+    transform: rotate(180deg);
+}
+
+/* Mobile menu show/hide */
+.mobile-menu.hidden {
+    display: none;
+}
+
+.mobile-menu.show {
+    display: block;
 }
 
 /* Smooth scrolling */
