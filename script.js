@@ -228,7 +228,7 @@ function createGallery({
     containerId, 
     paginationId, 
     imagePath, 
-    prefix = "IMG_", 
+    prefix = "chair_", 
     totalImages, 
     perPage = 20 
   }) {
@@ -251,7 +251,7 @@ function createGallery({
           "bg-white rounded-lg shadow overflow-hidden group";
         
         const img = document.createElement("img");
-        img.src = `${imagePath}${prefix}${padNumber(i)}.JPG`; 
+        img.src = `${imagePath}${prefix}${padNumber(i)}.jpg`; 
         img.alt = `${prefix}${padNumber(i)}`;
         img.className =
           "w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-110";
