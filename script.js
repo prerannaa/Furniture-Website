@@ -1,62 +1,46 @@
-// Mobile menu toggle
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuButton = document.querySelector('.mobile-menu-button');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    mobileMenuButton.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-        mobileMenu.classList.toggle('show');
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('show');
-        }
-    });
-    // Mobile accordion for Categories
-    const accordionButtons = document.querySelectorAll('.mobile-accordion > button');
-    accordionButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const submenu = this.nextElementSibling;
-            if (submenu) {
-                submenu.classList.toggle('hidden');
-            }
-        });
-    });
-});
-
 // Testimonial Carousel
+
 const track = document.getElementById("carousel-track");
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
+const dotsContainer = document.getElementById("carousel-dots");
 
 let index = 0;
 const slides = track.children;
-const slideCount = slides.length;
+const totalSlides = slides.length; // Each "slide" can have up to 3 cards
 
-function updateCarousel() {
-  track.style.transform = `translateX(-${index * 100}%)`;
+// Create dots
+for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement("button");
+    dot.className = "w-3 h-3 rounded-full bg-gray-400";
+    dot.addEventListener("click", () => {
+        index = i;
+        updateCarousel();
+        updateDots();
+    });
+    dotsContainer.appendChild(dot);
 }
 
-nextBtn.addEventListener("click", () => {
-  index = (index + 1) % slideCount;
-  updateCarousel();
-});
+// Update carousel function
+function updateCarousel() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    updateDots();
+}
 
-prevBtn.addEventListener("click", () => {
-  index = (index - 1 + slideCount) % slideCount;
-  updateCarousel();
-});
+// Highlight the active dot
+function updateDots() {
+    const dots = dotsContainer.children;
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle("bg-[#8649FB]", i === index);
+        dots[i].classList.toggle("bg-gray-400", i !== index);
+    }
+}
 
-// Auto-slide every 3s
 setInterval(() => {
-  index = (index + 1) % slideCount;
-  updateCarousel();
+    index = (index + 1) % totalSlides;
+    updateCarousel();
 }, 2000);
 
+// Initialize first dot as active
+updateDots();
 
 
 // function initializeTestimonialCarousel() {
@@ -385,6 +369,37 @@ if (window.location.pathname.includes('products.html')) {
 
 
 //navigation menu mobile view 
+
+// Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('show');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('show');
+        }
+    });
+    // Mobile accordion for Categories
+    const accordionButtons = document.querySelectorAll('.mobile-accordion > button');
+    accordionButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('hidden');
+            }
+        });
+    });
+});
+
 function toggleProducts(event) {
     event.stopPropagation();
     const submenu = document.getElementById('products-submenu');
